@@ -5,7 +5,24 @@ import { Link } from "react-router-dom";
 
 import { CityLogo } from "../Utils/tools";
 
-const Header = () => {
+import firebase from "../../firebase";
+import { getAuth, signOut } from "firebase/auth";
+
+import { showToastSuccess, showToastError } from "../Utils/tools";
+
+const auth = getAuth(firebase);
+
+const Header = ({ user }) => {
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => {
+        showToastSuccess("Goofbye!");
+      })
+      .catch((error) => {
+        showToastError(error);
+      });
+  };
+
   return (
     <AppBar
       position="fixed"
@@ -31,9 +48,17 @@ const Header = () => {
           <Button color="inherit">Matches</Button>
         </Link>
 
-        <Link to="/dashboard">
-          <Button color="inherit">Dashboard</Button>
-        </Link>
+        {user ? (
+          <>
+            <Link to="/dashboard">
+              <Button color="inherit">Dashboard</Button>
+            </Link>
+
+            <Button color="inherit" onClick={handleSignOut}>
+              LOG OUT
+            </Button>
+          </>
+        ) : null}
       </Toolbar>
     </AppBar>
   );
