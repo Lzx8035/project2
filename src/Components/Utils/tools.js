@@ -5,6 +5,9 @@ import MCLOGO from "../../Resources/images/logos/manchester_city_logo.png";
 
 import { toast } from "react-toastify";
 
+import firebase from "../../firebase";
+import { getAuth, signOut } from "firebase/auth";
+
 export const CityLogo = (props) => {
   const template = (
     <div
@@ -38,4 +41,16 @@ export const showToastSuccess = (msg) => {
   toast.success(msg, {
     position: toast.POSITION.TOP_LEFT,
   });
+};
+
+const auth = getAuth(firebase);
+
+export const handleSignOut = () => {
+  signOut(auth)
+    .then(() => {
+      showToastSuccess("Goodbye!");
+    })
+    .catch((error) => {
+      showToastError(error);
+    });
 };

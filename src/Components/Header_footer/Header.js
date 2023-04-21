@@ -3,26 +3,9 @@ import { AppBar, Toolbar, Button } from "@mui/material";
 
 import { Link } from "react-router-dom";
 
-import { CityLogo } from "../Utils/tools";
-
-import firebase from "../../firebase";
-import { getAuth, signOut } from "firebase/auth";
-
-import { showToastSuccess, showToastError } from "../Utils/tools";
-
-const auth = getAuth(firebase);
+import { CityLogo, handleSignOut } from "../Utils/tools";
 
 const Header = ({ user }) => {
-  const handleSignOut = () => {
-    signOut(auth)
-      .then(() => {
-        showToastSuccess("Goofbye!");
-      })
-      .catch((error) => {
-        showToastError(error);
-      });
-  };
-
   return (
     <AppBar
       position="fixed"
